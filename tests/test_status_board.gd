@@ -5,6 +5,9 @@ extends RefCounted
 const STATUS_PATH: String = "res://docs/agents/STATUS.md"
 const ARCHIVE_PATH: String = "res://docs/agents/STATUS_ARCHIVE.md"
 const AGENTS_DIR: String = "res://docs/agents"
+## Task-id prefixes the board recognises ("CX-12", "AG-3", "C-7"). Rows with any other prefix are
+## ignored, so add yours here (e.g. "GM") and nowhere else; README "Board prefixes" explains why.
+const ID_PREFIXES: Array[String] = ["AG", "CX", "C"]
 
 
 ## The live board and the archive agree, and every linked brief exists.
@@ -72,7 +75,7 @@ func _problems(board: String, archive: String, brief_exists: Callable) -> Packed
 ## A blocked row is stale when every dependency is a task id already in the archive and nothing
 ## else (a user hand-off such as "GLB จากผู้ใช้") is left in the cell.
 func _blocked_only_on_archived(depends: String, archived: Dictionary) -> bool:
-	var ids: RegEx = RegEx.create_from_string("\\b(?:AG|CX|C)-\\d+[a-z]?\\b")
+	var ids: RegEx = RegEx.create_from_string("\\b(?:%s)-\\d+[a-z]?\\b" % _prefix_alternatives())
 	var found: Array[RegExMatch] = ids.search_all(depends)
 	if found.is_empty():
 		return false
@@ -86,7 +89,7 @@ func _blocked_only_on_archived(depends: String, archived: Dictionary) -> bool:
 
 ## Table rows whose first cell is a task id: "| [AG-90](tasks/AG-90.md) | ... |" or "| C-19 | ... |".
 func _rows(text: String) -> Array[Dictionary]:
-	var row_start: RegEx = RegEx.create_from_string("^\\|\\s*(?:\\[((?:AG|CX|C)-\\d+[a-z]?)\\]\\(([^)]+)\\)|((?:AG|CX|C)-\\d+[a-z]?))\\s*\\|")
+	var row_start: RegEx = RegEx.create_from_string("^\\|\\s*(?:\\[((?:%s)-\\d+[a-z]?)\\]\\(([^)]+)\\)|((?:%s)-\\d+[a-z]?))\\s*\\|" % [_prefix_alternatives(), _prefix_alternatives()])
 	var rows: Array[Dictionary] = []
 	for line: String in text.split("\n"):
 		var head: RegExMatch = row_start.search(line)
@@ -99,3 +102,8 @@ func _rows(text: String) -> Array[Dictionary]:
 		rows.append({"id": id, "link": head.get_string(2), "depends": cells[cells.size() - 2].strip_edges(),
 			"status": cells[cells.size() - 1].strip_edges()})
 	return rows
+
+
+## "AG|CX|C" for use inside a regex group.
+func _prefix_alternatives() -> String:
+	return "|".join(ID_PREFIXES)
