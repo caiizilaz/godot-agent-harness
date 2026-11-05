@@ -1,0 +1,77 @@
+name: Godot tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # The suite runs as 4 parallel shards (TEST_SHARD, see tests/run_tests.gd); `test` below
+  # is the single check that needs all of them.
+  shard:
+    name: test (shard ${{ matrix.shard }}/4)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    env:
+      TEST_SHARD: ${{ matrix.shard }}/4
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read engine version
+        id: version
+        run: echo "version=$(cat tools/ci/godot-version.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-verified-v1-${{ steps.version.outputs.version }}-linux
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verified Godot
+        run: python tools/ci/setup_godot.py
+
+      # Imported assets (.godot) are the slow part of a cold run. tools/test.sh always re-imports
+      # incrementally, checks every imported file exists and wipes .godot on a bad import, so a
+      # stale or partial cache only costs time, never correctness.
+      - name: Cache Godot import
+        uses: actions/cache@v4
+        with:
+          path: .godot
+          key: godot-import-${{ env.GODOT_VERSION }}-${{ hashFiles('**/*.import', 'project.godot') }}
+          restore-keys: |
+            godot-import-${{ env.GODOT_VERSION }}-
+
+      # Same script agents run locally: imports (retrying a crash), then runs every suite.
+      - name: Import and run tests
+        run: tools/test.sh
+
+  test:
+    needs: shard
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ "${{ needs.shard.result }}" != "success" ]; then
+            echo "::error::a test shard did not pass (${{ needs.shard.result }})"
+            exit 1
+          fi
+
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Same script agents run locally: pinned gdlint in a venv, plus the check that
+      # tests/run_tests.gd never goes back to a hand-listed SUITES array.
+      - name: Lint GDScript
+        run: GDLINT_VENV="$RUNNER_TEMP/gdlint" tools/lint.sh

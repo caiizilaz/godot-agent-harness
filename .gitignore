@@ -1,0 +1,15 @@
+.godot/
+.DS_Store
+__pycache__/
+build/
+
+# tools/shot.sh output; PRs and reports attach or list the files
+shots/
+
+# per-user Claude Code settings
+.claude/settings.local.json
+
+# agent report images stay in the agent's worktree; reports list their paths
+docs/agents/reports/**/*.png
+docs/agents/reports/**/*.jpg
+docs/agents/reports/**/*.webp

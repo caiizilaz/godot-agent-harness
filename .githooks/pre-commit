@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Lints staged GDScript with CI's pinned gdlint so lint failures (like the trailing
+# whitespace that kept main red from #23 to #30) are caught before the commit, not in CI.
+# Enabled per clone with: git config core.hooksPath .githooks
+set -euo pipefail
+
+files=()
+while IFS= read -r -d '' f; do files+=("$f"); done \
+	< <(git diff --cached --name-only --diff-filter=ACMR -z -- '*.gd')
+[ "${#files[@]}" -eq 0 ] && exit 0
+
+if ! "$(git rev-parse --show-toplevel)/tools/lint.sh" "${files[@]}"; then
+	echo "pre-commit: gdlint failed. Fix the lines above, re-add, and commit again." >&2
+	exit 1
+fi

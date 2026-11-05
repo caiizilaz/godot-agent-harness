@@ -1,0 +1,9 @@
+# Existing project layout interleaves UI constants and onready fields.
+disable:
+  - class-definitions-order
+# Preserve existing long typed signatures and table/test expressions.
+max-line-length: 250
+# Validation functions use early-return guards instead of deep nesting.
+max-returns: 20
+# Test suites expose one public method per case.
+max-public-methods: 100
