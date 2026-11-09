@@ -34,14 +34,14 @@ only for `tools/ci/flaky.sh` and the template command below.
 | Platform | Status |
 |---|---|
 | macOS | Used daily by the project this came from; every command below was run here. |
-| Linux | Should work (CI targets `ubuntu-latest`), but the workflow has not yet run green on GitHub: Actions was blocked by an account billing issue when this was written. `tools/shot.sh` needs a display; on a headless machine try `xvfb-run -a tools/shot.sh ...` (not tested here). |
+| Linux | CI runs the headless suite on `ubuntu-latest` and is green on GitHub (lint and tests; not the screenshot step, which needs a display). `tools/shot.sh` needs a display; on a headless machine try `xvfb-run -a tools/shot.sh ...` (not tested here). |
 | Windows | Not supported natively (bash scripts). Use WSL. |
 
 ```bash
 gh repo create my-game --template caiizilaz/godot-agent-harness --private --clone
 cd my-game
 git config core.hooksPath .githooks
-tools/lint.sh && tools/test.sh        # 6/6 passed on a fresh clone
+tools/lint.sh && tools/test.sh        # 9/9 passed on a fresh clone
 tools/shot.sh main shots/main.png     # opens a window, saves the frame
 ```
 
@@ -73,7 +73,7 @@ Run `tools/lint.sh && tools/test.sh` on the branch merged with `origin/main`, sa
 
 ### ภาษาไทย: เริ่มใช้งาน
 
-- **ต้องมี:** Godot 4.7 (คำสั่ง `godot`), Python 3.11+, bash, perl · macOS ใช้ได้เต็มที่ · Linux น่าจะใช้ได้แต่ CI ยังไม่เคยรันผ่านบน GitHub · Windows ใช้ผ่าน WSL
+- **ต้องมี:** Godot 4.7 (คำสั่ง `godot`), Python 3.11+, bash, perl · macOS ใช้ได้เต็มที่ · Linux: CI รันเทสต์แบบ headless ผ่านบน GitHub แล้ว (ส่วน `tools/shot.sh` ต้องมีหน้าจอ) · Windows ใช้ผ่าน WSL
 - **สร้างโปรเจกต์:** `gh repo create my-game --template caiizilaz/godot-agent-harness --private --clone` แล้วรัน `git config core.hooksPath .githooks`
 - **เช็กว่าพร้อม:** `tools/lint.sh && tools/test.sh` ควรได้ 6/6 · `tools/shot.sh main shots/main.png` เปิดหน้าต่างเกมแล้วเซฟภาพ
 - **สั่ง agent:** เขียนบรีฟจาก `docs/agents/tasks/_TEMPLATE.md` และเพิ่มแถวใน `STATUS.md`
