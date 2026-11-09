@@ -57,7 +57,7 @@ Then:
    - **Antigravity:** open the repo as the workspace and run `/start-task AG-1` (workflows are in `.agent/workflows/`).
    - **Claude Code:** it reads `CLAUDE.md` by itself; ask it to merge the agent's branch when the report arrives.
 
-The example task `CX-1` is ready to try with Codex.
+`CX-1` to `CX-5` and `AG-1` are the first real tasks of the tower defense this repo builds (D2 in `docs/decisions.md`); `CX-1` is ready to hand to Codex.
 
 ### Board prefixes
 
