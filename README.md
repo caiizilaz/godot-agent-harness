@@ -14,7 +14,7 @@ python3 tools/harness.py --config examples/typescript/harness.json check
 ```
 
 Python 3.11+, Git, pinned Godot (`tools/ci/godot-version.txt`), Node 22.18+ for the TypeScript example.
-macOS is checked locally; Linux is covered by configured CI, not a claim of a completed remote run.
+macOS is checked locally. The upstream template has passed Linux CI; this overhaul still needs its own remote CI run.
 Windows: use WSL; native Windows is not supported by the POSIX runner.
 
 | Use | Start here |
@@ -40,3 +40,6 @@ Agent roles follow capabilities, not provider names; one agent can hold multiple
 
 Token/time savings are goals, not established percentages. Unity/Unreal adapters are not shipped.
 MIT; engine reference attribution remains in `docs/engine-reference/godot/`.
+
+The upstream tower-defense example kickoff (D2) and its task briefs are preserved.
+The reusable harness remains the main product; game examples demonstrate its workflow.

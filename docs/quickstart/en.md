@@ -3,7 +3,7 @@
 
 Requires Python 3.11+, Git, the exact Godot version in tools/ci/godot-version.txt, and Node 22.18+ for TypeScript. Targets macOS/Linux; use WSL on Windows. Native Windows is unverified.
 
-Run from the repository root. Expect Godot 6/6, three TypeScript tests, and the current tooling checks. Doctor checks executable availability without running configured commands. Inspect the JSON at the Evidence path.
+Run from the repository root. Expect Godot 9/9, three TypeScript tests, and the current tooling checks. Doctor checks executable availability without running configured commands. Inspect the JSON at the Evidence path.
 
 Beginner: modify one score rule and its test. Solo: use a short brief and worktree without extra agents. Team: declare ownership/dependencies and assign one integrator for hot files.
 

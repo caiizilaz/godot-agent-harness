@@ -16,7 +16,7 @@
 | Check | Result |
 |---|---|
 | Existing baseline | Godot 6/6; lint passed |
-| Final Godot suite | 6/6 |
+| Final Godot suite | 9/9 after integrating main 10cbf2c |
 | Python tooling suite | 32/32 |
 | TypeScript rule suite | 3/3 |
 | Pinned GDScript lint | passed |
@@ -48,3 +48,11 @@ Review the local branch and report before integration. Keep the original shell c
 For an adopted project, remove only its added harness.json to return to its original commands.
 The website patch is idempotent and rejects changed preimages. Prior website source files were backed up locally
 under `/var/folders/y9/66qq2hg14h9dh_ls2yg5q3_c0000gn/T/space8-site-backup-rnpzud_6`.
+
+## Integration preflight
+
+Latest upstream main `10cbf2c` has been integrated locally. Its tower-defense kickoff,
+board/briefs, decisions and three repository-document checks were preserved. README conflicts
+were resolved without dropping the reusable-harness positioning. Full checks passed again:
+Godot 9/9, tooling 32/32, TypeScript 3/3, pinned lint and locale parity.
+Publication remains a separate action under the repository and website release instructions.

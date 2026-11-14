@@ -1,8 +1,9 @@
 # CX-OVERHAUL report
 
-**Branch:** `codex/space8-harness-overhaul` · **Tests:** Godot 6 → 6 passed; tooling 32; TypeScript 3
+**Branch:** `codex/space8-harness-overhaul` · **Tests:** Godot 6 → 9 passed; tooling 32; TypeScript 3
 
 ## Changed
+- Integrated latest main (10cbf2c), preserving tower-defense kickoff and new repository-doc checks.
 - Core/command/Godot adapters, strict schema, safe process lifetime and failure evidence.
 - Worktree identity/base checks; ownership/dependency validation; capability-based roles.
 - Thai/English/zh-Hans docs, TypeScript example, CI jobs and migration/rollback checks.
