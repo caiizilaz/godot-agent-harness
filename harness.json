@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "tooling",
+      "adapter": "command",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/tests"
+      ],
+      "cwd": ".",
+      "required": true,
+      "timeout": 120,
+      "log_cap": 50000000
+    },
+    {
+      "id": "godot",
+      "adapter": "godot",
+      "argv": [
+        "test"
+      ],
+      "cwd": ".",
+      "required": true,
+      "timeout": 600,
+      "log_cap": 50000000
+    },
+    {
+      "id": "lint",
+      "adapter": "command",
+      "argv": [
+        "bash",
+        "tools/lint.sh"
+      ],
+      "cwd": ".",
+      "required": true,
+      "timeout": 120,
+      "log_cap": 50000000
+    },
+    {
+      "id": "typescript",
+      "adapter": "command",
+      "argv": [
+        "node",
+        "--experimental-strip-types",
+        "--test",
+        "score.test.ts"
+      ],
+      "cwd": "examples/typescript",
+      "required": true,
+      "timeout": 30,
+      "log_cap": 50000000
+    },
+    {
+      "id": "docs",
+      "adapter": "command",
+      "argv": [
+        "python3",
+        "tools/docs/check_locales.py"
+      ],
+      "cwd": ".",
+      "required": true,
+      "timeout": 30,
+      "log_cap": 50000000
+    }
+  ]
+}

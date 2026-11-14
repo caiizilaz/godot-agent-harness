@@ -1,0 +1,17 @@
+---
+import type { Locale } from '../data/site-content';
+import { HARNESS } from '../data/harness';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const h = HARNESS[locale];
+---
+<article id="harness" class="surface-card p-6 sm:p-10" data-work-card data-work-category="tools">
+  <p class="eyebrow-pill mb-4">SPACE8 LABS · {h.category}</p>
+  <h2 class="text-2xl sm:text-4xl font-bold mb-4">{h.title}</h2>
+  <p class="text-lg text-[var(--color-link)] mb-4">{h.lead}</p>
+  <p class="text-[var(--color-muted)] max-w-3xl mb-6">{h.summary}</p>
+  <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+    {h.steps.map((step, index) => <li class="surface-card p-4"><span class="font-mono text-[var(--color-link)]">0{index + 1}</span><p class="mt-2">{step}</p></li>)}
+  </ol>
+  <a class="btn-primary" href={`/${locale}/work/harness/`}>{h.cta} →</a>
+</article>

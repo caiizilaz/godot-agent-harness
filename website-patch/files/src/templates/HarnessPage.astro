@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../data/site-content';
+import { HARNESS } from '../data/harness';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const h = HARNESS[locale];
+---
+<BaseLayout locale={locale} routeId="harness" title={`${h.title} | SPACE8 LABS`} description={h.summary}>
+  <section class="section-s8"><div class="container-s8">
+    <p class="eyebrow-pill mb-4">SPACE8 LABS · {h.category}</p>
+    <h1 class="text-3xl sm:text-5xl font-bold mb-5">{h.title}</h1>
+    <p class="text-xl text-[var(--color-link)] mb-5">{h.lead}</p>
+    <p class="text-[var(--color-muted)] max-w-3xl mb-8">{h.summary}</p>
+    <a class="btn-primary" href="https://github.com/caiizilaz/godot-agent-harness">{h.repo} ↗</a>
+  </div></section>
+  <section class="section-s8"><div class="container-s8 grid grid-cols-1 md:grid-cols-2 gap-6">
+    {h.sections.map(([title, body]) => <article class="surface-card p-6 sm:p-8"><h2 class="text-xl font-bold mb-4">{title}</h2><p class="text-[var(--color-muted)] leading-relaxed">{body}</p></article>)}
+  </div></section>
+  <section class="section-s8"><div class="container-s8">
+    <h2 class="text-2xl font-bold mb-6">{h.origin}</h2>
+    <div class="flex flex-wrap gap-4">
+      <a class="btn-secondary" href={`/${locale}/work/#tkr`}>TKR · ลิขิตสามก๊ก</a>
+      <a class="btn-secondary" href={`/${locale}/work/#hmp`}>HMP · KLAP CHAT: Reroll Protocol</a>
+    </div>
+  </div></section>
+</BaseLayout>

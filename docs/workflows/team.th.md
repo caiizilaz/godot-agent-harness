@@ -1,0 +1,1 @@
+กำหนดผู้รับผิดชอบไฟล์และ dependencies ก่อนทำงาน ใช้ contract tests เมื่อข้ามระบบ ให้หนึ่ง integrator รวม hot files และตรวจผลครบก่อนรวมงาน manifest เป็น JSON array ของ {id,state,owns,depends}; state คือ planned/ready/active/complete; owns เป็น exact paths หรือ directory roots ไม่ใช้ glob ตรวจด้วย PYTHONPATH=tools python3 tools/harness/workflow.py path/to/tasks.json
