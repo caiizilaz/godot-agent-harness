@@ -38,7 +38,7 @@ jobs:
         run: python tools/ci/setup_godot.py
 
       # Imported assets (.godot) are the slow part of a cold run. tools/test.sh always re-imports
-      # incrementally, checks every imported file exists and wipes .godot on a bad import, so a
+      # incrementally and checks imported outputs without deleting user caches, so a
       # stale or partial cache only costs time, never correctness.
       - name: Cache Godot import
         uses: actions/cache@v4
@@ -75,3 +75,19 @@ jobs:
       # tests/run_tests.gd never goes back to a hand-listed SUITES array.
       - name: Lint GDScript
         run: GDLINT_VENV="$RUNNER_TEMP/gdlint" tools/lint.sh
+
+  tooling:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.18.0'
+      - run: python3 tools/harness.py check tooling typescript docs

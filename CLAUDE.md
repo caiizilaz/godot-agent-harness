@@ -1,8 +1,9 @@
-# Claude Code: integrator
+# Claude Code entry point
 
-Godot 4.7 project, GDScript, everything testable headless. Other agents (Codex, Antigravity, …) follow
-[AGENTS.md](AGENTS.md); read it once so you know their rules. You own the files listed there as
-"always owned by the integrator", merge every agent branch, and keep `docs/agents/STATUS.md` true.
+Read [AGENTS.md](AGENTS.md) for canonical task rules and [role profiles](docs/workflows/profiles.md).
+Claude Code may be the integrator, implementer or reviewer according to the task assignment.
+The following integration guidance applies only when you are the designated integrator.
+Tool availability and verified results determine role assignment, not a fixed provider ranking.
 
 ## One worktree per session
 
@@ -13,7 +14,7 @@ remove the worktree after merge.
 ## Checks
 
 ```bash
-tools/lint.sh && tools/test.sh
+python3 tools/harness.py check
 ```
 
 - `tools/test.sh test_a test_b` runs only those suites while you work; CI runs everything in 4 shards.
@@ -30,5 +31,5 @@ tools/lint.sh && tools/test.sh
   that undo fixes already on `main`.
 - Moving a task to done = move its STATUS row to `STATUS_ARCHIVE.md` and its brief/report to `docs/agents/archive/`
   in the same PR. `test_status_board` fails otherwise.
-- If CI cannot run (billing, outage), run `tools/lint.sh && tools/test.sh` on the branch merged with `origin/main`
+- If CI cannot run (billing, outage), run `python3 tools/harness.py check` on the branch merged with `origin/main`
   and say so in the PR before merging.

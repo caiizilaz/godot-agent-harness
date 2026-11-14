@@ -1,0 +1,67 @@
+[
+  {
+    "path": "src/components/HarnessCard.astro",
+    "before_sha256": null,
+    "after_sha256": "d1d78b31a7b06e02f1d8cd42870959ea00613e741e2a9310a8ad4697835e3f16"
+  },
+  {
+    "path": "src/templates/WorkPage.astro",
+    "before_sha256": "e4e0d20706d77b39cd2e6abd9e7a05a5ab5910470083ff0ddc2a285bd8b9495e",
+    "after_sha256": "7f02f42e5078381da3e56affc93ca58a0a04d6b7a4b898de19437b3f2fac12ae"
+  },
+  {
+    "path": "src/templates/HomePage.astro",
+    "before_sha256": "025ae42ab6fc1c20d72c031f500a215fb22adc080ee4531f2ae765135fa5da99",
+    "after_sha256": "3b3a88cb45b916a9582ef82c7d7a92cdb4f68d50c10493002f07571899ab9b28"
+  },
+  {
+    "path": "src/templates/HarnessPage.astro",
+    "before_sha256": null,
+    "after_sha256": "834b81eb6952a65a2ac745027612cca27106dd9d915cf2fcce45e824a78705f0"
+  },
+  {
+    "path": "src/data/site-content.ts",
+    "before_sha256": "77b646935fca90c3f1b48ea6db26b8f9ea165cfb4ca7d38c17180dae19643a29",
+    "after_sha256": "5e1a819fdb6d5539802b6d9646654bf734df35bdb595f03379b87fdf1fad7c5f"
+  },
+  {
+    "path": "src/data/harness.ts",
+    "before_sha256": null,
+    "after_sha256": "361b9e758105b57d23d2a716cdf97cfda43fcc3915ad23f1f2f0afc6c373b0e0"
+  },
+  {
+    "path": "src/pages/sitemap.xml.ts",
+    "before_sha256": "41cadec78af1ba5ef125a5d2dd8a1a0623e6830e92810d64b4152ab61202554b",
+    "after_sha256": "32986c1e2b387f7313581277ea216e72551908a56f0dc2f66440271e09a81272"
+  },
+  {
+    "path": "src/pages/th/work/harness.astro",
+    "before_sha256": null,
+    "after_sha256": "c9bbaca267ec07d7da137965ac6facc0187ce43a58bc9e37de64c727d5d25470"
+  },
+  {
+    "path": "src/pages/en/work/harness.astro",
+    "before_sha256": null,
+    "after_sha256": "a0eefe585aeb7880729e45e6f6b5adf11996953ffaad7de82efd33c3398ef39c"
+  },
+  {
+    "path": "src/pages/zh/work/harness.astro",
+    "before_sha256": null,
+    "after_sha256": "28db5e97462e603a6868578b0095b5b6ad52bc3623f08682c90df22f7f60a695"
+  },
+  {
+    "path": "scripts/verify-build.mjs",
+    "before_sha256": "5a2918750d388f94962e56ee142bab34923e415c73fdbaf67acee22a27bb7dad",
+    "after_sha256": "4e8c5fae4378056d974c6b8a3cc2761412eb5c7b2c162a71bc0b96c57d5d721d"
+  },
+  {
+    "path": "docs/harness-overhaul-qa.md",
+    "before_sha256": null,
+    "after_sha256": "f0fb11ed5dd181a5ff49b8cf6d89e3955591c736ab14ac8a5f41ef1a5a2c658b"
+  },
+  {
+    "path": "docs/qa-evidence/harness/browser-results.json",
+    "before_sha256": null,
+    "after_sha256": "566af3c5ee792379af8d6f0d8c5b0fd7ea3523349a1addc7bf71d1ece0fefd28"
+  }
+]

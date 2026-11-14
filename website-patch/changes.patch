@@ -1,0 +1,1053 @@
+--- /dev/null
++++ b/src/components/HarnessCard.astro
+@@ -0,0 +1,17 @@
++---
++import type { Locale } from '../data/site-content';
++import { HARNESS } from '../data/harness';
++interface Props { locale: Locale }
++const { locale } = Astro.props;
++const h = HARNESS[locale];
++---
++<article id="harness" class="surface-card p-6 sm:p-10" data-work-card data-work-category="tools">
++  <p class="eyebrow-pill mb-4">SPACE8 LABS · {h.category}</p>
++  <h2 class="text-2xl sm:text-4xl font-bold mb-4">{h.title}</h2>
++  <p class="text-lg text-[var(--color-link)] mb-4">{h.lead}</p>
++  <p class="text-[var(--color-muted)] max-w-3xl mb-6">{h.summary}</p>
++  <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
++    {h.steps.map((step, index) => <li class="surface-card p-4"><span class="font-mono text-[var(--color-link)]">0{index + 1}</span><p class="mt-2">{step}</p></li>)}
++  </ol>
++  <a class="btn-primary" href={`/${locale}/work/harness/`}>{h.cta} →</a>
++</article>
+--- a/src/templates/WorkPage.astro
++++ b/src/templates/WorkPage.astro
+@@ -1,0 +2,2 @@
++import HarnessCard from '../components/HarnessCard.astro';
++import { HARNESS } from '../data/harness';
+@@ -14,0 +17,2 @@
++const filterLabel = (text: string, count: number) => `${text.replace(/\s*\([^)]*\)\s*$/, '')} (${count})`;
++const toolbarLabel = { th: 'กรองผลงานตามประเภท', en: 'Filter projects by domain', zh: '按类别筛选项目' }[locale];
+@@ -42 +46 @@
+-          aria-label="Filter projects by domain"
++          aria-label={toolbarLabel}
+@@ -50 +54 @@
+-            {work.filterAll}
++            {filterLabel(work.filterAll, work.projects.length + 1)}
+@@ -58 +62 @@
+-            {work.filterGames}
++            {filterLabel(work.filterGames, work.projects.filter(p => p.category === 'games').length)}
+@@ -66 +70 @@
+-            {work.filterSecurity}
++            {filterLabel(work.filterSecurity, work.projects.filter(p => p.category === 'security').length)}
+@@ -67,0 +72 @@
++          <button type="button" data-work-filter="tools" aria-pressed="false" class="s8-filter-btn">{HARNESS[locale].category} (1)</button>
+@@ -75,0 +81 @@
++      <HarnessCard locale={locale} />
+--- a/src/templates/HomePage.astro
++++ b/src/templates/HomePage.astro
+@@ -1,0 +2 @@
++import HarnessCard from '../components/HarnessCard.astro';
+@@ -559,0 +561 @@
++<section class="section-s8"><div class="container-s8"><HarnessCard locale={locale} /></div></section>
+--- /dev/null
++++ b/src/templates/HarnessPage.astro
+@@ -0,0 +1,27 @@
++---
++import BaseLayout from '../layouts/BaseLayout.astro';
++import type { Locale } from '../data/site-content';
++import { HARNESS } from '../data/harness';
++interface Props { locale: Locale }
++const { locale } = Astro.props;
++const h = HARNESS[locale];
++---
++<BaseLayout locale={locale} routeId="harness" title={`${h.title} | SPACE8 LABS`} description={h.summary}>
++  <section class="section-s8"><div class="container-s8">
++    <p class="eyebrow-pill mb-4">SPACE8 LABS · {h.category}</p>
++    <h1 class="text-3xl sm:text-5xl font-bold mb-5">{h.title}</h1>
++    <p class="text-xl text-[var(--color-link)] mb-5">{h.lead}</p>
++    <p class="text-[var(--color-muted)] max-w-3xl mb-8">{h.summary}</p>
++    <a class="btn-primary" href="https://github.com/caiizilaz/godot-agent-harness">{h.repo} ↗</a>
++  </div></section>
++  <section class="section-s8"><div class="container-s8 grid grid-cols-1 md:grid-cols-2 gap-6">
++    {h.sections.map(([title, body]) => <article class="surface-card p-6 sm:p-8"><h2 class="text-xl font-bold mb-4">{title}</h2><p class="text-[var(--color-muted)] leading-relaxed">{body}</p></article>)}
++  </div></section>
++  <section class="section-s8"><div class="container-s8">
++    <h2 class="text-2xl font-bold mb-6">{h.origin}</h2>
++    <div class="flex flex-wrap gap-4">
++      <a class="btn-secondary" href={`/${locale}/work/#tkr`}>TKR · ลิขิตสามก๊ก</a>
++      <a class="btn-secondary" href={`/${locale}/work/#hmp`}>HMP · KLAP CHAT: Reroll Protocol</a>
++    </div>
++  </div></section>
++</BaseLayout>
+--- a/src/data/site-content.ts
++++ b/src/data/site-content.ts
+@@ -13,0 +14 @@
++  | 'harness'
+@@ -31,0 +33 @@
++  harness: { id: 'harness', path: '/work/harness/', isCore: false, showInHeader: false, showInFooter: false },
+@@ -308,0 +311 @@
++      harness: 'Godot Agent Harness',
+@@ -885,0 +889 @@
++      harness: 'Godot Agent Harness',
+@@ -1460,0 +1465 @@
++      harness: 'Godot Agent Harness',
+--- /dev/null
++++ b/src/data/harness.ts
+@@ -0,0 +1,105 @@
++import type { Locale } from './site-content';
++export const HARNESS = {
++  "th": {
++    "category": "เครื่องมือสำหรับนักพัฒนา",
++    "title": "Godot Agent Harness",
++    "lead": "จากบทเรียนการสร้างเกม สู่ workflow ที่นำไปใช้ต่อได้",
++    "summary": "SPACE8 LABS สกัดบทเรียนจาก TKR และ HMP เป็นเครื่องมือทำงานร่วมกับ AI agents: แบ่งขอบเขตงาน ตรวจผลจริง และส่งต่องานพร้อมหลักฐาน",
++    "cta": "ดูแนวทางและตัวอย่าง",
++    "repo": "เปิดซอร์สโค้ด",
++    "origin": "พัฒนาจากงานเกมของเรา",
++    "status": "กำลังพัฒนา",
++    "steps": [
++      "กำหนดขอบเขต",
++      "ทำใน worktree",
++      "ตรวจผล",
++      "ส่งต่อหลักฐาน"
++    ],
++    "sections": [
++      [
++        "ปัญหาที่พบในงานจริง",
++        "งานหลายส่วนใช้ไฟล์ร่วมกัน การ import ที่ไม่สมบูรณ์ทำให้การตรวจผิดพลาด และงานที่ผ่านเทสต์อาจยังแสดงผลไม่ถูกต้อง"
++      ],
++      [
++        "วิธีทำงาน",
++        "กำหนดผู้รับผิดชอบและ contract ต่อชิ้นงาน แยก worktree รันการตรวจที่มีขอบเขตเวลาและ log และแนบภาพเมื่อเปลี่ยนสิ่งที่ผู้เล่นเห็น"
++      ],
++      [
++        "ขยายออกจาก Godot",
++        "แยกแกน workflow ออกจาก adapter สำหรับ engine ใช้ Godot เป็นตัวอย่างแรก และคำสั่งทั่วไปสำหรับงาน Node/TypeScript การรองรับ engine อื่นต้องผ่านการทดลองก่อน"
++      ],
++      [
++        "วัดผลอย่างตรงไปตรงมา",
++        "เป้าหมายคือคุณภาพงานที่ดีขึ้นและลดเวลาหรือ token ที่เสียไป ยังไม่มีตัวเลขยืนยันการประหยัด token ข้ามโมเดล และไม่อ้างผลจากการทดลองเครื่องมือว่าเป็นผลของ AI ทั้ง workflow"
++      ]
++    ]
++  },
++  "en": {
++    "category": "Developer tools",
++    "title": "Godot Agent Harness",
++    "lead": "Lessons from building games, made reusable",
++    "summary": "SPACE8 LABS turns lessons from TKR and HMP into a workflow for AI-assisted development: bounded ownership, verified checks and evidence-based handoffs.",
++    "cta": "Explore the workflow",
++    "repo": "View source code",
++    "origin": "Built from our game projects",
++    "status": "In development",
++    "steps": [
++      "Define scope",
++      "Isolate work",
++      "Verify results",
++      "Hand off evidence"
++    ],
++    "sections": [
++      [
++        "The problem in practice",
++        "Parallel tasks share files, incomplete imports undermine checks, and passing logic tests do not prove that a screen renders correctly."
++      ],
++      [
++        "The workflow",
++        "Define ownership and contracts per task, isolate changes in worktrees, bound check time and log size, and inspect screenshots when player-visible output changes."
++      ],
++      [
++        "Beyond Godot",
++        "Separate the workflow core from engine adapters. Godot is the first example; generic commands support Node/TypeScript tasks. Other engines need their own validation before support is claimed."
++      ],
++      [
++        "Measured claims",
++        "The aim is better work with less wasted time and context. Cross-model token savings have not been established. Tool-level fixtures are not evidence of end-to-end AI productivity."
++      ]
++    ]
++  },
++  "zh": {
++    "category": "开发者工具",
++    "title": "Godot Agent Harness",
++    "lead": "将游戏开发经验转化为可复用的工作流程",
++    "summary": "SPACE8 LABS 将 TKR 和 HMP 的开发经验整理为 AI 辅助开发流程：明确任务范围、验证检查结果，并附带证据交接工作。",
++    "cta": "了解工作流程",
++    "repo": "查看源代码",
++    "origin": "源自我们的游戏项目",
++    "status": "开发中",
++    "steps": [
++      "明确范围",
++      "隔离工作",
++      "验证结果",
++      "交接证据"
++    ],
++    "sections": [
++      [
++        "实际遇到的问题",
++        "并行任务会修改同一文件，不完整的资源导入会影响检查结果，而逻辑测试通过并不能证明画面显示正确。"
++      ],
++      [
++        "工作方式",
++        "为每个任务定义文件归属与接口约定，使用独立工作树，限制检查时间与日志大小，并在玩家可见内容变更后检查截图。"
++      ],
++      [
++        "扩展到 Godot 之外",
++        "将通用工作流程与引擎适配器分离。以 Godot 为首个示例，通过通用命令支持 Node/TypeScript 任务。其他引擎必须经过验证后才能声明支持。"
++      ],
++      [
++        "如实衡量效果",
++        "目标是提高质量，减少浪费的时间和上下文。目前尚未验证跨模型的 token 节省效果。工具级测试不能代表完整 AI 开发流程的生产力。"
++      ]
++    ]
++  }
++} satisfies Record<Locale, {category:string;title:string;lead:string;summary:string;cta:string;repo:string;origin:string;status:string;steps:string[];sections:string[][]}>;
+--- a/src/pages/sitemap.xml.ts
++++ b/src/pages/sitemap.xml.ts
+@@ -6 +6 @@
+-  const indexableRoutes: RouteId[] = ['home', 'services', 'products', 'work', 'about', 'insights', 'contact'];
++  const indexableRoutes: RouteId[] = ['harness', 'home', 'services', 'products', 'work', 'about', 'insights', 'contact'];
+--- /dev/null
++++ b/src/pages/th/work/harness.astro
+@@ -0,0 +1,4 @@
++---
++import HarnessPage from '../../../templates/HarnessPage.astro';
++---
++<HarnessPage locale="th" />
+--- /dev/null
++++ b/src/pages/en/work/harness.astro
+@@ -0,0 +1,4 @@
++---
++import HarnessPage from '../../../templates/HarnessPage.astro';
++---
++<HarnessPage locale="en" />
+--- /dev/null
++++ b/src/pages/zh/work/harness.astro
+@@ -0,0 +1,4 @@
++---
++import HarnessPage from '../../../templates/HarnessPage.astro';
++---
++<HarnessPage locale="zh" />
+--- a/scripts/verify-build.mjs
++++ b/scripts/verify-build.mjs
+@@ -37,0 +38 @@
++  'work/harness/index.html',
+@@ -207,0 +209,11 @@
++for (const locale of locales) {
++  const detail = await fs.readFile(path.join(distDir, locale, 'work/harness/index.html'), 'utf8');
++  const work = await fs.readFile(path.join(distDir, locale, 'work/index.html'), 'utf8');
++  const home = await fs.readFile(path.join(distDir, locale, 'index.html'), 'utf8');
++  assert(detail.includes('Godot Agent Harness'), `Harness heading missing: ${locale}`);
++  assert(detail.includes(`/${locale}/work/#tkr`) && detail.includes(`/${locale}/work/#hmp`), `Game links missing: ${locale}`);
++  assert(work.includes('data-work-filter="tools"') && work.includes('data-work-category="tools"'), `Tools filter missing: ${locale}`);
++  assert(home.includes(`/${locale}/work/harness/`), `Home discovery missing: ${locale}`);
++  for (const other of locales) assert(detail.includes(`/${other}/work/harness/`), `Locale target missing: ${locale}/${other}`);
++}
++
+--- /dev/null
++++ b/docs/harness-overhaul-qa.md
+@@ -0,0 +1,17 @@
++# Harness portfolio integration — 2026-11-14
++
++Scope: one developer-tools portfolio card, homepage discovery and TH/EN/zh-Hans case-study routes.
++Existing SPACE8 LABS styles and scripts were refreshed from the concurrent site task before final checks.
++No identity, hosting, contact delivery or tracking changes. No new image/font assets.
++
++- Astro build: 38 pages, zero type errors.
++- Static verification: 38 HTML routes; harness routes, game links, locale alternates and filters checked.
++- Browser: 42/42 checks, three locales, 320/375/768/1024/1440/1920 px, both themes, tools/all filters.
++- Keyboard Enter activates tools filter, aria-pressed true, only harness visible.
++- Reduced-motion emulation: matches true, decorative canvas unpainted.
++- No browser console errors observed on the final case study.
++- Sample lead-text/background contrast minimum 9.29:1; not a claim of a full-site WCAG audit.
++- Local preview only. External release has not been performed.
++- Token savings and additional engine support are explicitly not claimed.
++
++Evidence: `docs/qa-evidence/harness/browser-results.json` and local screenshot artifacts.
+--- /dev/null
++++ b/docs/qa-evidence/harness/browser-results.json
+@@ -0,0 +1,788 @@
++[
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 284,
++      "height": 72,
++      "top": 183.828125,
++      "right": 302,
++      "bottom": 255.828125,
++      "left": 18
++    },
++    "theme": "dark",
++    "lang": "th",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "th",
++    "width": 320,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 284,
++      "height": 72,
++      "top": 183.828125,
++      "right": 302,
++      "bottom": 255.828125,
++      "left": 18
++    },
++    "theme": "light",
++    "lang": "th",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "th",
++    "width": 320,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 339,
++      "height": 36,
++      "top": 183.828125,
++      "right": 357,
++      "bottom": 219.828125,
++      "left": 18
++    },
++    "theme": "dark",
++    "lang": "th",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "th",
++    "width": 375,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 339,
++      "height": 36,
++      "top": 183.828125,
++      "right": 357,
++      "bottom": 219.828125,
++      "left": 18
++    },
++    "theme": "light",
++    "lang": "th",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "th",
++    "width": 375,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 30.71875,
++      "y": 191.828125,
++      "width": 706.5625,
++      "height": 48,
++      "top": 191.828125,
++      "right": 737.28125,
++      "bottom": 239.828125,
++      "left": 30.71875
++    },
++    "theme": "dark",
++    "lang": "th",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "th",
++    "width": 768,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 30.71875,
++      "y": 191.828125,
++      "width": 706.5625,
++      "height": 48,
++      "top": 191.828125,
++      "right": 737.28125,
++      "bottom": 239.828125,
++      "left": 30.71875
++    },
++    "theme": "light",
++    "lang": "th",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "th",
++    "width": 768,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 40.953125,
++      "y": 204.625,
++      "width": 942.09375,
++      "height": 48,
++      "top": 204.625,
++      "right": 983.046875,
++      "bottom": 252.625,
++      "left": 40.953125
++    },
++    "theme": "dark",
++    "lang": "th",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "th",
++    "width": 1024,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 40.953125,
++      "y": 204.625,
++      "width": 942.09375,
++      "height": 48,
++      "top": 204.625,
++      "right": 983.046875,
++      "bottom": 252.625,
++      "left": 40.953125
++    },
++    "theme": "light",
++    "lang": "th",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "th",
++    "width": 1024,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 128,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1312,
++      "bottom": 283.828125,
++      "left": 128
++    },
++    "theme": "dark",
++    "lang": "th",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "th",
++    "width": 1440,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 128,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1312,
++      "bottom": 283.828125,
++      "left": 128
++    },
++    "theme": "light",
++    "lang": "th",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "th",
++    "width": 1440,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 368,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1552,
++      "bottom": 283.828125,
++      "left": 368
++    },
++    "theme": "dark",
++    "lang": "th",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "th",
++    "width": 1920,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 368,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1552,
++      "bottom": 283.828125,
++      "left": 368
++    },
++    "theme": "light",
++    "lang": "th",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "th",
++    "width": 1920,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 181.015625,
++      "width": 284,
++      "height": 72,
++      "top": 181.015625,
++      "right": 302,
++      "bottom": 253.015625,
++      "left": 18
++    },
++    "theme": "dark",
++    "lang": "en",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "en",
++    "width": 320,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 181.015625,
++      "width": 284,
++      "height": 72,
++      "top": 181.015625,
++      "right": 302,
++      "bottom": 253.015625,
++      "left": 18
++    },
++    "theme": "light",
++    "lang": "en",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "en",
++    "width": 320,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 181.015625,
++      "width": 339,
++      "height": 36,
++      "top": 181.015625,
++      "right": 357,
++      "bottom": 217.015625,
++      "left": 18
++    },
++    "theme": "dark",
++    "lang": "en",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "en",
++    "width": 375,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 181.015625,
++      "width": 339,
++      "height": 36,
++      "top": 181.015625,
++      "right": 357,
++      "bottom": 217.015625,
++      "left": 18
++    },
++    "theme": "light",
++    "lang": "en",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "en",
++    "width": 375,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 30.71875,
++      "y": 189.015625,
++      "width": 706.5625,
++      "height": 48,
++      "top": 189.015625,
++      "right": 737.28125,
++      "bottom": 237.015625,
++      "left": 30.71875
++    },
++    "theme": "dark",
++    "lang": "en",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "en",
++    "width": 768,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 30.71875,
++      "y": 189.015625,
++      "width": 706.5625,
++      "height": 48,
++      "top": 189.015625,
++      "right": 737.28125,
++      "bottom": 237.015625,
++      "left": 30.71875
++    },
++    "theme": "light",
++    "lang": "en",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "en",
++    "width": 768,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 40.953125,
++      "y": 201.8125,
++      "width": 942.09375,
++      "height": 48,
++      "top": 201.8125,
++      "right": 983.046875,
++      "bottom": 249.8125,
++      "left": 40.953125
++    },
++    "theme": "dark",
++    "lang": "en",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "en",
++    "width": 1024,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 40.953125,
++      "y": 201.8125,
++      "width": 942.09375,
++      "height": 48,
++      "top": 201.8125,
++      "right": 983.046875,
++      "bottom": 249.8125,
++      "left": 40.953125
++    },
++    "theme": "light",
++    "lang": "en",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "en",
++    "width": 1024,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 128,
++      "y": 233.015625,
++      "width": 1184,
++      "height": 48,
++      "top": 233.015625,
++      "right": 1312,
++      "bottom": 281.015625,
++      "left": 128
++    },
++    "theme": "dark",
++    "lang": "en",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "en",
++    "width": 1440,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 128,
++      "y": 233.015625,
++      "width": 1184,
++      "height": 48,
++      "top": 233.015625,
++      "right": 1312,
++      "bottom": 281.015625,
++      "left": 128
++    },
++    "theme": "light",
++    "lang": "en",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "en",
++    "width": 1440,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 368,
++      "y": 233.015625,
++      "width": 1184,
++      "height": 48,
++      "top": 233.015625,
++      "right": 1552,
++      "bottom": 281.015625,
++      "left": 368
++    },
++    "theme": "dark",
++    "lang": "en",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "en",
++    "width": 1920,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 368,
++      "y": 233.015625,
++      "width": 1184,
++      "height": 48,
++      "top": 233.015625,
++      "right": 1552,
++      "bottom": 281.015625,
++      "left": 368
++    },
++    "theme": "light",
++    "lang": "en",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "en",
++    "width": 1920,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 284,
++      "height": 72,
++      "top": 183.828125,
++      "right": 302,
++      "bottom": 255.828125,
++      "left": 18
++    },
++    "theme": "dark",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "zh",
++    "width": 320,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 284,
++      "height": 72,
++      "top": 183.828125,
++      "right": 302,
++      "bottom": 255.828125,
++      "left": 18
++    },
++    "theme": "light",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "zh",
++    "width": 320,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 339,
++      "height": 36,
++      "top": 183.828125,
++      "right": 357,
++      "bottom": 219.828125,
++      "left": 18
++    },
++    "theme": "dark",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "zh",
++    "width": 375,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 18,
++      "y": 183.828125,
++      "width": 339,
++      "height": 36,
++      "top": 183.828125,
++      "right": 357,
++      "bottom": 219.828125,
++      "left": 18
++    },
++    "theme": "light",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "zh",
++    "width": 375,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 30.71875,
++      "y": 191.828125,
++      "width": 706.5625,
++      "height": 48,
++      "top": 191.828125,
++      "right": 737.28125,
++      "bottom": 239.828125,
++      "left": 30.71875
++    },
++    "theme": "dark",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "zh",
++    "width": 768,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 30.71875,
++      "y": 191.828125,
++      "width": 706.5625,
++      "height": 48,
++      "top": 191.828125,
++      "right": 737.28125,
++      "bottom": 239.828125,
++      "left": 30.71875
++    },
++    "theme": "light",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "zh",
++    "width": 768,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 40.953125,
++      "y": 204.625,
++      "width": 942.09375,
++      "height": 48,
++      "top": 204.625,
++      "right": 983.046875,
++      "bottom": 252.625,
++      "left": 40.953125
++    },
++    "theme": "dark",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "zh",
++    "width": 1024,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 40.953125,
++      "y": 204.625,
++      "width": 942.09375,
++      "height": 48,
++      "top": 204.625,
++      "right": 983.046875,
++      "bottom": 252.625,
++      "left": 40.953125
++    },
++    "theme": "light",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "zh",
++    "width": 1024,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 128,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1312,
++      "bottom": 283.828125,
++      "left": 128
++    },
++    "theme": "dark",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "zh",
++    "width": 1440,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 128,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1312,
++      "bottom": 283.828125,
++      "left": 128
++    },
++    "theme": "light",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "zh",
++    "width": 1440,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 368,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1552,
++      "bottom": 283.828125,
++      "left": 368
++    },
++    "theme": "dark",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(183, 203, 255)",
++    "background": "rgb(6, 12, 26)",
++    "locale": "zh",
++    "width": 1920,
++    "passed": true,
++    "sample_text_contrast": 12.09
++  },
++  {
++    "overflow": false,
++    "h1": {
++      "x": 368,
++      "y": 235.828125,
++      "width": 1184,
++      "height": 48,
++      "top": 235.828125,
++      "right": 1552,
++      "bottom": 283.828125,
++      "left": 368
++    },
++    "theme": "light",
++    "lang": "zh-Hans",
++    "bodyText": "rgb(20, 58, 158)",
++    "background": "rgb(247, 248, 251)",
++    "locale": "zh",
++    "width": 1920,
++    "passed": true,
++    "sample_text_contrast": 9.29
++  },
++  {
++    "locale": "th",
++    "filter": "tools",
++    "passed": true
++  },
++  {
++    "locale": "th",
++    "filter": "all",
++    "passed": true
++  },
++  {
++    "locale": "en",
++    "filter": "tools",
++    "passed": true
++  },
++  {
++    "locale": "en",
++    "filter": "all",
++    "passed": true
++  },
++  {
++    "locale": "zh",
++    "filter": "tools",
++    "passed": true
++  },
++  {
++    "locale": "zh",
++    "filter": "all",
++    "passed": true
++  }
++]

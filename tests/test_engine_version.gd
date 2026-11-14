@@ -24,8 +24,10 @@ func test_version_matches_everywhere() -> String:
 	if not minor in features:
 		problems.append("project.godot features %s do not include the installed %s" % [str(features), minor])
 	var pinned: String = FileAccess.get_file_as_string(VERSION_FILE_PATH).strip_edges()
-	if not pinned.begins_with(minor + "."):
-		problems.append("tools/ci/godot-version.txt is '%s', installed is %s" % [pinned, minor])
+	var info: Dictionary = Engine.get_version_info()
+	var exact: String = "%s.%d" % [minor, int(info.patch)]
+	if pinned != exact:
+		problems.append("tools/ci/godot-version.txt is '%s', installed is %s" % [pinned, exact])
 	# Dot-folders are hidden from res://, so read the workflow by its real path.
 	var workflow: String = FileAccess.get_file_as_string(ProjectSettings.globalize_path(WORKFLOW_PATH))
 	for needed: String in ["tools/ci/godot-version.txt", "tools/ci/setup_godot.py"]:

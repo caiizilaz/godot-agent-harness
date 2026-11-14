@@ -1,0 +1,223 @@
+{
+  "kind": "tool_correctness_pilot_not_agent_benchmark",
+  "baseline_commit": "0893df46e30af8b08c283d6ad53dd102929f77c4",
+  "python": "3.14.5",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "records": [
+    {
+      "case": "healthy",
+      "repetition": 1,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": true,
+      "seconds": 0.5386230000294745,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "healthy",
+      "repetition": 1,
+      "arm": "after",
+      "exit_code": 0,
+      "accepted": true,
+      "seconds": 0.1164061245508492,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "healthy",
+      "repetition": 2,
+      "arm": "after",
+      "exit_code": 0,
+      "accepted": true,
+      "seconds": 0.10658662533387542,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "healthy",
+      "repetition": 2,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": true,
+      "seconds": 0.06595137482509017,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "healthy",
+      "repetition": 3,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": true,
+      "seconds": 0.06782174995169044,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "healthy",
+      "repetition": 3,
+      "arm": "after",
+      "exit_code": 0,
+      "accepted": true,
+      "seconds": 0.10985120804980397,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "import_failure",
+      "repetition": 1,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": false,
+      "seconds": 0.0683469157665968,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "import_failure",
+      "repetition": 1,
+      "arm": "after",
+      "exit_code": 1,
+      "accepted": true,
+      "seconds": 0.08654991630464792,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "import_failure",
+      "repetition": 2,
+      "arm": "after",
+      "exit_code": 1,
+      "accepted": true,
+      "seconds": 0.08583570830523968,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "import_failure",
+      "repetition": 2,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": false,
+      "seconds": 0.06649187486618757,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "import_failure",
+      "repetition": 3,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": false,
+      "seconds": 0.06603945884853601,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "import_failure",
+      "repetition": 3,
+      "arm": "after",
+      "exit_code": 1,
+      "accepted": true,
+      "seconds": 0.08543049963191152,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "exit_after_summary",
+      "repetition": 1,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": false,
+      "seconds": 0.06669787503778934,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "exit_after_summary",
+      "repetition": 1,
+      "arm": "after",
+      "exit_code": 1,
+      "accepted": true,
+      "seconds": 0.10716812498867512,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "exit_after_summary",
+      "repetition": 2,
+      "arm": "after",
+      "exit_code": 1,
+      "accepted": true,
+      "seconds": 0.10716183437034488,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "exit_after_summary",
+      "repetition": 2,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": false,
+      "seconds": 0.06790612498298287,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "exit_after_summary",
+      "repetition": 3,
+      "arm": "before",
+      "exit_code": 0,
+      "accepted": false,
+      "seconds": 0.0657569169998169,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    },
+    {
+      "case": "exit_after_summary",
+      "repetition": 3,
+      "arm": "after",
+      "exit_code": 1,
+      "accepted": true,
+      "seconds": 0.10512458300217986,
+      "input_tokens": null,
+      "output_tokens": null,
+      "human_seconds": null
+    }
+  ],
+  "summary": {
+    "before": {
+      "accepted": 3,
+      "runs": 9,
+      "median_seconds": 0.06669787503778934
+    },
+    "after": {
+      "accepted": 9,
+      "runs": 9,
+      "median_seconds": 0.10658662533387542
+    }
+  },
+  "limitations": [
+    "No model calls or token measurements",
+    "Synthetic Godot executable",
+    "No cross-model or real game productivity conclusion"
+  ]
+}

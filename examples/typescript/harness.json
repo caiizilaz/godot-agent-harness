@@ -1,0 +1,1 @@
+{"schema_version":1,"checks":[{"id":"rules","adapter":"command","argv":["node","--experimental-strip-types","--test","score.test.ts"],"cwd":".","required":true,"timeout":30,"log_cap":1000000}]}

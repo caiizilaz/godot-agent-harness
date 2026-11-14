@@ -1,6 +1,6 @@
 # AGENTS.md: rules for Codex, Antigravity and any non-Claude agent
 
-Godot 4.7 project, GDScript, everything headless-testable. Claude Code is the **integrator**: it writes briefs,
+Godot 4.7 project, GDScript, everything headless-testable. The designated **integrator** (human or agent) writes briefs,
 merges branches and owns the shared files. You get one task brief in `docs/agents/tasks/<TASK-ID>.md`.
 Read **this file and your brief only**, not the whole board or other briefs.
 To check a dependency, grep its row: `grep -E '\[(CX-12|AG-3)\]' docs/agents/STATUS.md docs/agents/STATUS_ARCHIVE.md`
@@ -66,9 +66,9 @@ enter the repo. Never commit secrets, `.godot/` or large binaries the brief does
 2. Write `docs/agents/reports/<TASK-ID>.md` from `docs/agents/REPORT_TEMPLATE.md`, 30 lines max.
 3. Commit on your branch and stop. Tell the user the branch name and report path.
 
-## Who does what
+## Role selection
 
-- **Codex:** logic and tests with no visual judgement: rules, data, AI, generators. Ambiguous criteria →
+- **Logic implementer:** rules, data, AI and generators with test evidence. Any capable agent may fill this role. Ambiguous criteria →
   implement the narrowest reading and list the question in the report.
-- **Antigravity:** visual judgement, browser research, UI screens, images. Measure, don't eyeball: name colour %,
+- **Visual reviewer:** native screenshots, browser research, UI and images. Any agent with the required tools may fill this role. Measure colour %,
   sizes and contrast with the numbers your art rules give. See `.agent/rules/`.
